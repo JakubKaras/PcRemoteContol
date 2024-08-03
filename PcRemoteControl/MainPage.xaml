@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PcRemoteControl.MainPage"
+             xmlns:local="clr-namespace:PcRemoteControl"
+             xmlns:communicator="clr-namespace:NetworkCommunicator;assembly=NetworkCommunicator"
+             x:DataType="local:MainViewModel">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Text="LAN Remote Control"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1" />
+        <Label
+            Grid.Row="1"
+            Text="Select device to control."
+            Style="{StaticResource SubHeadline}"
+            SemanticProperties.HeadingLevel="Level2"
+            SemanticProperties.Description="Select, add, edit devices." />
+        <CollectionView
+            x:Name="deviceList"
+            Grid.Row="2"
+            ItemsSource="{Binding NetworkDetails}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="communicator:NetworkDetail">
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Wake Up"
+                                           IconImageSource="wakeup.png"
+                                           BackgroundColor="LightGreen"
+                                           Invoked="OnWakeUpClicked" />
+                                <SwipeItem Text="Edit"
+                                           IconImageSource="edit.png"
+                                           BackgroundColor="LightBlue"
+                                           Invoked="OnEditSwipeItemInvoked" />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Shutdown"
+                                           IconImageSource="shutdown.png"
+                                           BackgroundColor="LightGray"
+                                           Invoked="OnShutdownClicked" />
+                                <SwipeItem Text="Delete"
+                                           IconImageSource="delete.png"
+                                           BackgroundColor="LightPink"
+                                           Invoked="OnDeleteSwipeItemInvoked" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Frame>
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Text="{Binding Name}"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding Detail}"
+                                       VerticalOptions="End" />
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Grid.Row="3"
+            Text="Add new device to control."
+            x:Name="AddDeviceBtn"
+            SemanticProperties.Hint="Add new network device."
+            Clicked="AddDeviceBtn_Clicked"
+            HorizontalOptions="Fill" />
+    </Grid>
+
+</ContentPage>

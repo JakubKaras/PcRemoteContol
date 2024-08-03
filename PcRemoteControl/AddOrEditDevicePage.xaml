@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PcRemoteControl.AddOrEditDevicePage"
+             xmlns:local="clr-namespace:PcRemoteControl"
+             x:DataType="local:AddOrEditDeviceViewModel" >
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding Title}"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Label 
+                Grid.Row="0"
+                Text="Name" />
+            <Entry 
+                Grid.Row="1"
+                Text="{Binding Device.Name, Mode=TwoWay}" />
+            <Label 
+                Grid.Row="2"
+                Text="IP Address" />
+            <Entry 
+                Grid.Row="3"
+                Text="{Binding Device.IpAddress, Mode=TwoWay}" />
+            <Label 
+                Grid.Row="4"
+                Text="MAC Address" />
+            <Entry 
+                Grid.Row="5"
+                Text="{Binding Device.MacAddress, Mode=TwoWay}" />
+        </Grid>
+        <Button
+            Text="Save"
+            x:Name="SaveBtn"
+            SemanticProperties.Hint="Save device details."
+            Clicked="SaveBtn_Clicked"
+            HorizontalOptions="Fill"/>
+    </VerticalStackLayout>
+</ContentPage>
