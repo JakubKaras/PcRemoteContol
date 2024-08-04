@@ -55,7 +55,7 @@ namespace PcRemoteControl
             await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(_viewModel.NetworkDetails.Last(), false)));
         }
 
-        private void OnLoaded(object sender, EventArgs e)
+        private void OnLoaded(object? sender, EventArgs e)
         {
             _viewModel.SaveDevices();
         }
