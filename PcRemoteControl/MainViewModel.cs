@@ -1,25 +1,24 @@
 ﻿using NetworkCommunicator;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace PcRemoteControl
 {
+    [XmlRoot("MainViewModel")]
     public class MainViewModel
     {
+        [XmlIgnore]
+        public static readonly string SavePath = Path.Combine(AppContext.BaseDirectory, "MainViewModel.xml");
+
+        [XmlArray("NetworkDetails")]
         public ObservableCollection<NetworkDetail> NetworkDetails { get; set; }
 
         public NetworkDetail? SelectedItem { get; set; }
 
         public MainViewModel()
         {
-            NetworkDetails = [.. NetworkDetail.LoadDevices()];
+            NetworkDetails = new ObservableCollection<NetworkDetail>();
             SelectedItem = NetworkDetails.FirstOrDefault();
-        }
-
-        public void Refresh()
-        {
-            NetworkDetail.SaveDevices(NetworkDetails);
-            NetworkDetails.Clear();
-            NetworkDetails = [.. NetworkDetail.LoadDevices()];
         }
 
         public void AddDevice()
@@ -33,7 +32,14 @@ namespace PcRemoteControl
                 return;
 
             NetworkDetails.Remove(detail);
-            NetworkDetail.SaveDevices(NetworkDetails);
+            SaveDevices();
+        }
+
+        public void SaveDevices()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(MainViewModel));
+            TextWriter tw = new StreamWriter(SavePath);
+            xs.Serialize(tw, this);
         }
     }
 }

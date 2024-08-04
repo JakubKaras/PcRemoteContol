@@ -1,20 +1,68 @@
-﻿using System.Xml.Linq;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace NetworkCommunicator
 {
-    public partial class NetworkDetail : ObservableObject
+    [Serializable]
+    public class NetworkDetail : INotifyPropertyChanged
     {
-        private static string _networkDetailsPath = Path.Combine(AppContext.BaseDirectory, "NetworkDetails.xml");
+        private string _name = "";
+        private string _ipAddress = "";
+        private string _macAddress = "";
 
-        [ObservableProperty]
-        private string _name;
-        [ObservableProperty]
-        private string _ipAddress;
-        [ObservableProperty]
-        private string _macAddress;
+        [XmlElement]
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged("Name"); // reports this property
+                }
+            }
+        }
+
+        [XmlElement]
+        public string IpAddress
+        {
+            get => _ipAddress;
+            set
+            {
+                if (_ipAddress != value)
+                {
+                    _ipAddress = value;
+                    OnPropertyChanged("IpAddress"); // reports this property
+                }
+            }
+        }
+
+        [XmlElement]
+        public string MacAddress
+        {
+            get => _macAddress;
+            set
+            {
+                if (_macAddress != value)
+                {
+                    _macAddress = value;
+                    OnPropertyChanged("MacAddress"); // reports this property
+                }
+            }
+        }
+
+        public event Action? OnChange;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public static NetworkDetail Default => new NetworkDetail("MEDIASERVER", "192.168.0.24", "4C:CC:6A:49:65:53");
+
+        public NetworkDetail()
+        {
+            Name = "";
+            IpAddress = "";
+            MacAddress = "";
+        }
 
         public NetworkDetail(string name, string ipAddress, string macAddress)
         {
@@ -23,53 +71,11 @@ namespace NetworkCommunicator
             MacAddress = macAddress;
         }
 
-        public string Detail { get => $"\tIP Address: {IpAddress}\n\tMAC Address: {MacAddress}"; }
-
-        public static IEnumerable<NetworkDetail> LoadDevices()
+        private void OnPropertyChanged(string propertyName)
         {
-            if (!File.Exists(_networkDetailsPath))
-            {
-                return Enumerable.Empty<NetworkDetail>().Append(Default);
-            }
-            XElement networkDetails = XElement.Load(_networkDetailsPath);
-
-            var list = networkDetails.Descendants("NetworkDetail")
-                .Select(GetXmlElementValues)
-                .Append(Default);
-            return list;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static void SaveDevices(IEnumerable<NetworkDetail> networkDetails)
-        {
-            XElement xmlDoc = new XElement("NetworkDetails", networkDetails.Select(detail => detail.ToXml()));
-
-            xmlDoc.Save(_networkDetailsPath);
-        }
-
-        private static NetworkDetail GetXmlElementValues(XElement element)
-        {
-            NetworkDetail detail = new NetworkDetail("", "", "");
-            if (element != null)
-            {
-                foreach (var property in detail.GetType().GetProperties())
-                {
-                    XElement? item = element.Element(property.Name);
-                    if (item != null)
-                    {
-                        property.SetValue(detail, item.Value);
-                    }
-                }
-            }
-
-            return detail;
-        }
-
-        private XElement ToXml()
-        {
-            return new XElement(
-                "NetworkDetail",
-                typeof(NetworkDetail).GetProperties().Select(property => new XElement(nameof(property.Name), property.GetValue(this)))
-            );
-        }
+        public void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

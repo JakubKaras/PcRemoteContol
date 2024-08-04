@@ -14,6 +14,8 @@ namespace PcRemoteControl
             
             _viewModel = viewModel;
             BindingContext = viewModel;
+
+            Loaded += OnLoaded;
         }
 
         private async void OnWakeUpClicked(object sender, EventArgs e)
@@ -51,6 +53,11 @@ namespace PcRemoteControl
         {
             _viewModel.AddDevice();
             await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(_viewModel.NetworkDetails.Last(), false)));
+        }
+
+        private void OnLoaded(object sender, EventArgs e)
+        {
+            _viewModel.SaveDevices();
         }
     }
 }

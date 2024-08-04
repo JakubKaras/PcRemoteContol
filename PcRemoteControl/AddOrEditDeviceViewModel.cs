@@ -10,12 +10,6 @@ namespace PcRemoteControl
 
         public string Title { get => _isEdit ? "Editing device" : "Adding new device"; }
 
-        public AddOrEditDeviceViewModel()
-        {
-            _isEdit = false;
-            Device = new NetworkDetail("", "", "");
-        }
-
         public AddOrEditDeviceViewModel(NetworkDetail device, bool isEdit)
         {
             _isEdit = isEdit;

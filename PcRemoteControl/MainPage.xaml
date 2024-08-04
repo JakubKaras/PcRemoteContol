@@ -62,13 +62,30 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0"
+                                       Grid.ColumnSpan="2"
                                        Text="{Binding Name}"
                                        FontAttributes="Bold" />
                                 <Label Grid.Row="1"
-                                       Text="{Binding Detail}"
-                                       VerticalOptions="End" />
+                                       Grid.Column="0"
+                                       Text="IP Address: "
+                                       HorizontalTextAlignment="End"/>
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding IpAddress}"/>
+                                <Label Grid.Row="2"
+                                       Grid.Column="0"
+                                       Text="MAC Address: "
+                                       HorizontalTextAlignment="End"/>
+                                <Label Grid.Row="2"
+                                       Grid.Column="1"
+                                       Text="{Binding MacAddress}"/>
                             </Grid>
                         </Frame>
                     </SwipeView>

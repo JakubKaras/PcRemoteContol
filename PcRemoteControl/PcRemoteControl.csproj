@@ -59,7 +59,6 @@
 	  <None Remove="NetworkDetails.xml" />
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\edit.png" />
-	  <None Remove="Resources\Raw\NetworkDetails.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,10 +70,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\NetworkCommunicator\NetworkCommunicator.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiAsset Include="NetworkDetails.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
