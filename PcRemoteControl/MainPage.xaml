@@ -58,6 +58,9 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Frame>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnTapGestureRecognizerDoubleTapped" />
+                            </Frame.GestureRecognizers>
                             <Grid Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -87,18 +90,28 @@
                                        Grid.Column="1"
                                        Text="{Binding MacAddress}"/>
                             </Grid>
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsOnline}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Magenta}"/>
+                                </DataTrigger>
+                                <DataTrigger  TargetType="Frame" Binding="{Binding IsOnline}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray600}"/>
+                                </DataTrigger>
+                            </Frame.Triggers>
                         </Frame>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Button
+            Margin="10,0,10,0"
             Grid.Row="3"
-            Text="Add new device to control."
+            Text="Add new device"
             x:Name="AddDeviceBtn"
             SemanticProperties.Hint="Add new network device."
             Clicked="AddDeviceBtn_Clicked"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+            VerticalOptions="Start" />
     </Grid>
 
 </ContentPage>

@@ -1,13 +1,11 @@
 ﻿using NetworkCommunicator;
-using System.Linq;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace PcRemoteControl
 {
     public partial class MainPage : ContentPage
     {
         private MainViewModel _viewModel;
+
         public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
@@ -18,6 +16,24 @@ namespace PcRemoteControl
             Loaded += OnLoaded;
         }
 
+        private async void OnTapGestureRecognizerDoubleTapped(object sender, EventArgs e)
+        {
+            NetworkDetail selectedItem = (NetworkDetail)deviceList.SelectedItem;
+            if (selectedItem != null)
+            {
+                await selectedItem.Ping();
+            }
+
+            if (selectedItem?.IsOnline ?? false)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
         private async void OnWakeUpClicked(object sender, EventArgs e)
         {
             NetworkDetail selectedItem = (NetworkDetail)deviceList.SelectedItem;
@@ -25,7 +41,7 @@ namespace PcRemoteControl
                 return;
 
             if (await DisplayAlert("Wake Up Device", $"Are you sure you wish to wake up {selectedItem.Name}", "Wake Up", "Cancel"))
-                await WakeOnLan.Wake(selectedItem.MacAddress);
+                await selectedItem.Wake();
         }
 
         private async void OnShutdownClicked(object sender, EventArgs e)
@@ -34,8 +50,14 @@ namespace PcRemoteControl
             if (selectedItem == null)
                 return;
 
+            if (!await selectedItem.Ping())
+            {
+                await DisplayAlert("Device Is Offline", $"{selectedItem.Name} is already offline.", "Ok");
+                return;
+            }
+
             if (await DisplayAlert("Shutdown Device", $"Are you sure you wish to shutdown {selectedItem.Name}", "Shutdown", "Cancel"))
-                ShutdownOnLan.Shutdown(selectedItem.IpAddress);
+                selectedItem.Shutdown();
         }
 
         private async void OnEditSwipeItemInvoked(object sender, EventArgs e)

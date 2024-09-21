@@ -9,6 +9,7 @@ namespace NetworkCommunicator
         private string _name = "";
         private string _ipAddress = "";
         private string _macAddress = "";
+        private bool _isOnline = false;
 
         [XmlElement]
         public string Name
@@ -19,7 +20,7 @@ namespace NetworkCommunicator
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged("Name"); // reports this property
+                    OnPropertyChanged("Name");
                 }
             }
         }
@@ -33,7 +34,7 @@ namespace NetworkCommunicator
                 if (_ipAddress != value)
                 {
                     _ipAddress = value;
-                    OnPropertyChanged("IpAddress"); // reports this property
+                    OnPropertyChanged("IpAddress");
                 }
             }
         }
@@ -47,7 +48,21 @@ namespace NetworkCommunicator
                 if (_macAddress != value)
                 {
                     _macAddress = value;
-                    OnPropertyChanged("MacAddress"); // reports this property
+                    OnPropertyChanged("MacAddress");
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsOnline
+        {
+            get => _isOnline;
+            set
+            {
+                if (_isOnline != value)
+                {
+                    _isOnline = value;
+                    OnPropertyChanged("IsOnline");
                 }
             }
         }
