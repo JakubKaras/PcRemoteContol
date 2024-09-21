@@ -12,7 +12,7 @@
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
     <Color x:Key="Tertiary">#C47C00</Color>
-    <Color x:Key="OnlineOutsideColor">#AA74FF5C</Color>
+    <Color x:Key="OnlineOutsideColor">#74FF5C</Color>
     <Color x:Key="OnlineInsideColor">#1EC700</Color>
     <Color x:Key="OfflineOutsideColor">#FF0040</Color>
     <Color x:Key="OfflineInsideColor">#FE2A2A</Color>
@@ -49,19 +49,19 @@
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
-    <RadialGradientBrush x:Key="OnlineBrush" Radius="0.5">
+    <RadialGradientBrush x:Key="OnlineBrush" Radius="0.75">
         <GradientStop Color="{StaticResource OnlineInsideColor}" Offset="0.1" />
-        <GradientStop Color="{StaticResource OnlineOutsideColor}" Offset="0.95" />
+        <GradientStop Color="{StaticResource OnlineOutsideColor}" Offset="0.98" />
         <GradientStop Color="{StaticResource White}" Offset="1.0" />
     </RadialGradientBrush>
-    <RadialGradientBrush x:Key="OfflineBrush" Radius="0.5">
+    <RadialGradientBrush x:Key="OfflineBrush" Radius="0.65">
         <GradientStop Color="{StaticResource OfflineInsideColor}" Offset="0.1" />
-        <GradientStop Color="{StaticResource OfflineOutsideColor}" Offset="0.95" />
+        <GradientStop Color="{StaticResource OfflineOutsideColor}" Offset="0.98" />
         <GradientStop Color="{StaticResource White}" Offset="1.0" />
     </RadialGradientBrush>
-    <RadialGradientBrush x:Key="LoadingBrush" Radius="0.5">
+    <RadialGradientBrush x:Key="LoadingBrush" Radius="0.65">
         <GradientStop Color="{StaticResource LoadingInsideColor}" Offset="0.1" />
-        <GradientStop Color="{StaticResource LoadingOutsideColor}" Offset="0.95" />
+        <GradientStop Color="{StaticResource LoadingOutsideColor}" Offset="0.98" />
         <GradientStop Color="{StaticResource White}" Offset="1.0" />
     </RadialGradientBrush>
 </ResourceDictionary>
