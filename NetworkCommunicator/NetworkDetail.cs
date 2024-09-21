@@ -9,7 +9,7 @@ namespace NetworkCommunicator
         private string _name = "";
         private string _ipAddress = "";
         private string _macAddress = "";
-        private bool _isOnline = false;
+        private DeviceStatus _status = DeviceStatus.Offline;
 
         [XmlElement]
         public string Name
@@ -54,15 +54,15 @@ namespace NetworkCommunicator
         }
 
         [XmlIgnore]
-        public bool IsOnline
+        public DeviceStatus Status
         {
-            get => _isOnline;
+            get => _status;
             set
             {
-                if (_isOnline != value)
+                if (_status != value)
                 {
-                    _isOnline = value;
-                    OnPropertyChanged("IsOnline");
+                    _status = value;
+                    OnPropertyChanged("Status");
                 }
             }
         }

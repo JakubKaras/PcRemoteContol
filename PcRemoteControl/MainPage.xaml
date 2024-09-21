@@ -8,31 +8,18 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="14*"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label
-            Grid.Row="0"
-            Text="LAN Remote Control"
-            Style="{StaticResource Headline}"
-            SemanticProperties.HeadingLevel="Level1" />
-        <Label
-            Grid.Row="1"
-            Text="Select device to control."
-            Style="{StaticResource SubHeadline}"
-            SemanticProperties.HeadingLevel="Level2"
-            SemanticProperties.Description="Select, add, edit devices." />
         <CollectionView
             x:Name="deviceList"
-            Grid.Row="2"
+            Grid.Row="0"
             ItemsSource="{Binding NetworkDetails}"
             SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="communicator:NetworkDetail">
-                    <SwipeView>
+                    <SwipeView Margin="0,2,0,2">
                         <SwipeView.LeftItems>
                             <SwipeItems>
                                 <SwipeItem Text="Wake Up"
@@ -91,11 +78,23 @@
                                        Text="{Binding MacAddress}"/>
                             </Grid>
                             <Frame.Triggers>
-                                <DataTrigger TargetType="Frame" Binding="{Binding IsOnline}" Value="True">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Magenta}"/>
+                                <DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="0">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                    <Setter Property="BorderColor" Value="White"/>
+                                    <Setter Property="Background" Value="{StaticResource OnlineBrush}"/>
+                                    <Setter Property="CornerRadius" Value="8" />
                                 </DataTrigger>
-                                <DataTrigger  TargetType="Frame" Binding="{Binding IsOnline}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray600}"/>
+                                <DataTrigger  TargetType="Frame" Binding="{Binding Status}" Value="1">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                    <Setter Property="BorderColor" Value="White"/>
+                                    <Setter Property="Background" Value="{StaticResource OfflineBrush}"/>
+                                    <Setter Property="CornerRadius" Value="8" />
+                                </DataTrigger>
+                                <DataTrigger  TargetType="Frame" Binding="{Binding Status}" Value="2">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                    <Setter Property="BorderColor" Value="White"/>
+                                    <Setter Property="Background" Value="{StaticResource LoadingBrush}"/>
+                                    <Setter Property="CornerRadius" Value="8" />
                                 </DataTrigger>
                             </Frame.Triggers>
                         </Frame>
@@ -105,7 +104,7 @@
         </CollectionView>
         <Button
             Margin="10,0,10,0"
-            Grid.Row="3"
+            Grid.Row="1"
             Text="Add new device"
             x:Name="AddDeviceBtn"
             SemanticProperties.Hint="Add new network device."

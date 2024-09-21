@@ -71,19 +71,21 @@ namespace NetworkCommunicator
         public static async Task<bool> Ping(this NetworkDetail networkDetail)
         {
             Ping pinger = new();
-            networkDetail.IsOnline = false;
+            var isOnline = false;
 
             try
             {
                 var reply = await pinger.SendPingAsync(networkDetail.IpAddress);
-                networkDetail.IsOnline = reply.Status == IPStatus.Success;
+                isOnline = reply.Status == IPStatus.Success;
             }
             finally
             {
+                networkDetail.Status = isOnline ? DeviceStatus.Online : DeviceStatus.Offline;
                 pinger?.Dispose();
             }
 
-            return networkDetail.IsOnline;
+
+            return isOnline;
         }
     }
 }

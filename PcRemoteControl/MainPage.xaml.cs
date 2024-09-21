@@ -23,15 +23,6 @@ namespace PcRemoteControl
             {
                 await selectedItem.Ping();
             }
-
-            if (selectedItem?.IsOnline ?? false)
-            {
-
-            }
-            else
-            {
-
-            }
         }
 
         private async void OnWakeUpClicked(object sender, EventArgs e)
