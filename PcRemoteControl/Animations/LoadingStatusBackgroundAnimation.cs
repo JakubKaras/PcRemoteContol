@@ -1,6 +1,6 @@
 ﻿namespace PcRemoteControl.Animations
 {
-    public static class LoadingStatusBackgroundAnimation
+    internal static class LoadingStatusBackgroundAnimation
     {
         private static string AnimationName = "GradientMove";
         private static Color BackgroundColor = Color.FromRgba("#5CDEFF");

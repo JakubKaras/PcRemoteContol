@@ -2,7 +2,7 @@
 
 namespace PcRemoteControl.Triggers
 {
-    class LoadingDeviceBackgroundTrigger : TriggerAction<VisualElement>
+    internal class LoadingDeviceBackgroundTrigger : TriggerAction<VisualElement>
     {
         protected override async void Invoke(VisualElement sender)
         {

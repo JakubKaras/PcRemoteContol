@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace PcRemoteControl.Converters
 {
-    class DeviceStatusToColorConvert : IValueConverter
+    internal class DeviceStatusToColorConvert : IValueConverter
     {
         private readonly Dictionary<DeviceStatus, Color> _statusLabelTextColors = new()
         {
