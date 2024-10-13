@@ -1,107 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PcRemoteControl.MainPage"
              xmlns:local="clr-namespace:PcRemoteControl"
+             xmlns:converters="clr-namespace:PcRemoteControl.Converters"
+             xmlns:animations="clr-namespace:PcRemoteControl.Animations"
+             xmlns:triggers="clr-namespace:PcRemoteControl.Triggers"
              xmlns:communicator="clr-namespace:NetworkCommunicator;assembly=NetworkCommunicator"
+             x:Class="PcRemoteControl.MainPage"
              x:DataType="local:MainViewModel">
+    <ContentPage.Resources>
+        <converters:DeviceStatusToColorConvert x:Key="deviceStatusToColor" />
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="14*"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
         <CollectionView
             x:Name="deviceList"
             Grid.Row="0"
             ItemsSource="{Binding NetworkDetails}"
             SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="communicator:NetworkDetail">
-                    <SwipeView Margin="0,2,0,2">
-                        <SwipeView.LeftItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Wake Up"
-                                           IconImageSource="wakeup.png"
-                                           BackgroundColor="LightGreen"
-                                           Invoked="OnWakeUpClicked" />
-                                <SwipeItem Text="Edit"
-                                           IconImageSource="edit.png"
-                                           BackgroundColor="LightBlue"
-                                           Invoked="OnEditSwipeItemInvoked" />
-                            </SwipeItems>
-                        </SwipeView.LeftItems>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Shutdown"
-                                           IconImageSource="shutdown.png"
-                                           BackgroundColor="LightGray"
-                                           Invoked="OnShutdownClicked" />
-                                <SwipeItem Text="Delete"
-                                           IconImageSource="delete.png"
-                                           BackgroundColor="LightPink"
-                                           Invoked="OnDeleteSwipeItemInvoked" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <Frame>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnTapGestureRecognizerDoubleTapped" />
-                            </Frame.GestureRecognizers>
-                            <Grid Margin="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0"
-                                       Grid.ColumnSpan="2"
-                                       Text="{Binding Name}"
-                                       FontAttributes="Bold" />
-                                <Label Grid.Row="1"
-                                       Grid.Column="0"
-                                       Text="IP Address: "
-                                       HorizontalTextAlignment="End"/>
-                                <Label Grid.Row="1"
-                                       Grid.Column="1"
-                                       Text="{Binding IpAddress}"/>
-                                <Label Grid.Row="2"
-                                       Grid.Column="0"
-                                       Text="MAC Address: "
-                                       HorizontalTextAlignment="End"/>
-                                <Label Grid.Row="2"
-                                       Grid.Column="1"
-                                       Text="{Binding MacAddress}"/>
-                            </Grid>
-                            <Frame.Triggers>
-                                <DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="0">
-                                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                                    <Setter Property="BorderColor" Value="White"/>
-                                    <Setter Property="Background" Value="{StaticResource OnlineBrush}"/>
-                                    <Setter Property="CornerRadius" Value="8" />
-                                </DataTrigger>
-                                <DataTrigger  TargetType="Frame" Binding="{Binding Status}" Value="1">
-                                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                                    <Setter Property="BorderColor" Value="White"/>
-                                    <Setter Property="Background" Value="{StaticResource OfflineBrush}"/>
-                                    <Setter Property="CornerRadius" Value="8" />
-                                </DataTrigger>
-                                <DataTrigger  TargetType="Frame" Binding="{Binding Status}" Value="2">
-                                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                                    <Setter Property="BorderColor" Value="White"/>
-                                    <Setter Property="Background" Value="{StaticResource LoadingBrush}"/>
-                                    <Setter Property="CornerRadius" Value="8" />
-                                </DataTrigger>
-                            </Frame.Triggers>
-                        </Frame>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="communicator:NetworkDetail">
+                        <SwipeView Margin="0,2,0,2">
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Wake Up"
+                                            IconImageSource="wakeup.png"
+                                            BackgroundColor="LightGreen"
+                                            Invoked="OnWakeUpClicked" />
+                                    <SwipeItem Text="Edit"
+                                            IconImageSource="edit.png"
+                                            BackgroundColor="LightBlue"
+                                            Invoked="OnEditSwipeItemInvoked" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Shutdown"
+                                            IconImageSource="shutdown.png"
+                                            BackgroundColor="LightGray"
+                                            Invoked="OnShutdownClicked" />
+                                    <SwipeItem Text="Delete"
+                                            IconImageSource="delete.png"
+                                            BackgroundColor="LightPink"
+                                            Invoked="OnDeleteSwipeItemInvoked" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Border>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                        Grid.ColumnSpan="2"
+                                        Text="{Binding Name}"
+                                        FontAttributes="Bold" />
+                                    <Label Grid.Row="1"
+                                        Text="{Binding IpAddress, StringFormat='IP Address:         {0}'}"/>
+                                    <Label Grid.Row="2"
+                                        Text="{Binding MacAddress, StringFormat='MAC Address:    {0}'}"/>
+                                    <Label x:Name="statusLabel"
+                                        Grid.Row="0"
+                                        HorizontalTextAlignment="End"
+                                        VerticalTextAlignment="End">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Status}" FontAttributes="Bold" TextTransform="Uppercase"
+                                                        TextColor="{Binding Status, Converter={StaticResource deviceStatusToColor}}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                                <Border.Triggers>
+                                    <DataTrigger  TargetType="Border" Binding="{Binding Status}" Value="0">
+                                        <Setter Property="Stroke" Value="{StaticResource OfflineBrush}"/>
+                                        <Setter Property="Background" Value="{StaticResource OfflineBackgroundColor}"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="1">
+                                        <Setter Property="Stroke" Value="{StaticResource OnlineBrush}"/>
+                                        <Setter Property="Background" Value="{StaticResource OnlineBackgroundColor}"/>
+                                    </DataTrigger>
+                                    <DataTrigger  TargetType="Border" Binding="{Binding Status}" Value="2">
+                                        <Setter Property="Stroke" Value="{StaticResource LoadingBrush}"/>
+                                        <DataTrigger.EnterActions>
+                                            <triggers:LoadingDeviceBackgroundTrigger />
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
         <Button
             Margin="10,0,10,0"
             Grid.Row="1"

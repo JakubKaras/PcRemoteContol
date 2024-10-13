@@ -1,11 +1,13 @@
-﻿using NetworkCommunicator;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using NetworkCommunicator;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
 namespace PcRemoteControl
 {
     [XmlRoot("MainViewModel")]
-    public class MainViewModel
+    public partial class MainViewModel : ObservableObject
     {
         [XmlIgnore]
         public static readonly string SavePath = Path.Combine(AppContext.BaseDirectory, "MainViewModel.xml");
@@ -13,7 +15,12 @@ namespace PcRemoteControl
         [XmlArray("NetworkDetails")]
         public ObservableCollection<NetworkDetail> NetworkDetails { get; set; }
 
+        [XmlIgnore]
         public NetworkDetail? SelectedItem { get; set; }
+
+        [XmlIgnore]
+        [ObservableProperty]
+        bool isRefreshing;
 
         public MainViewModel()
         {
@@ -23,7 +30,7 @@ namespace PcRemoteControl
 
         public void AddDevice()
         {
-            NetworkDetails.Add(new NetworkDetail("", "", ""));
+            NetworkDetails.Add(new NetworkDetail());
         }
 
         public void RemoveDevice(NetworkDetail? detail)
@@ -40,6 +47,22 @@ namespace PcRemoteControl
             XmlSerializer xs = new XmlSerializer(typeof(MainViewModel));
             TextWriter tw = new StreamWriter(SavePath);
             xs.Serialize(tw, this);
+        }
+
+        [RelayCommand]
+        private async Task Refresh()
+        {
+            if (NetworkDetails == null)
+            {
+                IsRefreshing = false;
+                return;
+            }
+
+            IsRefreshing = true;
+            var tasks = NetworkDetails.Select(x => x.Ping());
+            IsRefreshing = false;
+
+            await Task.WhenAll(tasks);
         }
     }
 }

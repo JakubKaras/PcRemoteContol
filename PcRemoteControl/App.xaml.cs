@@ -5,34 +5,30 @@ namespace PcRemoteControl
 {
     public partial class App : Application
     {
-        public App()
+        public App(MainViewModel model)
         {
             InitializeComponent();
 
             XmlSerializer xs = new XmlSerializer(typeof(MainViewModel));
-            MainViewModel? model = null;
+            MainViewModel? loadedModel = null;
 
             try
             {
                 using (var sr = new StreamReader(MainViewModel.SavePath))
                 {
-                    model = (MainViewModel?)xs.Deserialize(sr);
+                    loadedModel = (MainViewModel?)xs.Deserialize(sr);
                 }
 
-                if (model == null)
+                if (loadedModel == null)
                     throw new FileLoadException("The XML was not loaded correctly.");
             }
             catch
             {
                 File.Delete(MainViewModel.SavePath);
-
-                model = new MainViewModel();
-                model.NetworkDetails.Add(NetworkDetail.Default);
-                model.SelectedItem = model.NetworkDetails.First();
             }
             finally
             {
-                MainPage = new NavigationPage(new MainPage(model ?? new MainViewModel()));
+                MainPage = new NavigationPage(new MainPage(loadedModel ?? model));
             }
         }
     }

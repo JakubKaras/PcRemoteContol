@@ -14,7 +14,7 @@ namespace PcRemoteControl
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
-            // Dependency Injections
+                // Dependency Injections
                 .Services
                     .AddSingleton<MainViewModel>()
                     .AddSingleton<MainPage>();

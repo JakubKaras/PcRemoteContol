@@ -4,25 +4,12 @@ namespace PcRemoteControl
 {
     public partial class MainPage : ContentPage
     {
-        private MainViewModel _viewModel;
-
         public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
-            
-            _viewModel = viewModel;
             BindingContext = viewModel;
 
             Loaded += OnLoaded;
-        }
-
-        private async void OnTapGestureRecognizerDoubleTapped(object sender, EventArgs e)
-        {
-            NetworkDetail selectedItem = (NetworkDetail)deviceList.SelectedItem;
-            if (selectedItem != null)
-            {
-                await selectedItem.Ping();
-            }
         }
 
         private async void OnWakeUpClicked(object sender, EventArgs e)
@@ -59,18 +46,18 @@ namespace PcRemoteControl
         private async void OnDeleteSwipeItemInvoked(object sender, EventArgs e)
         {
             if (await DisplayAlert("Delete Device", $"Are you sure you wish to remove {((NetworkDetail)deviceList.SelectedItem).Name}", "Delete", "Cancel"))
-                _viewModel.RemoveDevice(deviceList.SelectedItem as NetworkDetail);
+                ((MainViewModel)BindingContext).RemoveDevice(deviceList.SelectedItem as NetworkDetail);
         }
 
         private async void AddDeviceBtn_Clicked(object sender, EventArgs e)
         {
-            _viewModel.AddDevice();
-            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(_viewModel.NetworkDetails.Last(), false)));
+            ((MainViewModel)BindingContext).AddDevice();
+            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(((MainViewModel)BindingContext).NetworkDetails.Last(), false)));
         }
 
         private void OnLoaded(object? sender, EventArgs e)
         {
-            _viewModel.SaveDevices();
+            ((MainViewModel)BindingContext).SaveDevices();
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -75,6 +72,7 @@ namespace NetworkCommunicator
 
             try
             {
+                networkDetail.Status = DeviceStatus.Loading;
                 var reply = await pinger.SendPingAsync(networkDetail.IpAddress);
                 isOnline = reply.Status == IPStatus.Success;
             }

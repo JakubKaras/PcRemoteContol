@@ -1,96 +1,45 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Xml.Serialization;
 
 namespace NetworkCommunicator
 {
     [Serializable]
-    public class NetworkDetail : INotifyPropertyChanged
+    public partial class NetworkDetail : ObservableObject
     {
-        private string _name = "";
-        private string _ipAddress = "";
-        private string _macAddress = "";
-        private DeviceStatus _status = DeviceStatus.Offline;
+        [XmlElement]
+        [ObservableProperty]
+        private string _name;
 
         [XmlElement]
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged("Name");
-                }
-            }
-        }
+        [ObservableProperty]
+        private string _ipAddress;
 
         [XmlElement]
-        public string IpAddress
-        {
-            get => _ipAddress;
-            set
-            {
-                if (_ipAddress != value)
-                {
-                    _ipAddress = value;
-                    OnPropertyChanged("IpAddress");
-                }
-            }
-        }
-
-        [XmlElement]
-        public string MacAddress
-        {
-            get => _macAddress;
-            set
-            {
-                if (_macAddress != value)
-                {
-                    _macAddress = value;
-                    OnPropertyChanged("MacAddress");
-                }
-            }
-        }
+        [ObservableProperty]
+        private string _macAddress;
 
         [XmlIgnore]
-        public DeviceStatus Status
-        {
-            get => _status;
-            set
-            {
-                if (_status != value)
-                {
-                    _status = value;
-                    OnPropertyChanged("Status");
-                }
-            }
-        }
+        [ObservableProperty]
+        private DeviceStatus _status;
 
-        public event Action? OnChange;
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public static NetworkDetail Default => new NetworkDetail("MEDIASERVER", "192.168.0.24", "4C:CC:6A:49:65:53");
-
-        public NetworkDetail()
-        {
-            Name = "";
-            IpAddress = "";
-            MacAddress = "";
-        }
-
-        public NetworkDetail(string name, string ipAddress, string macAddress)
+        private NetworkDetail(string name, string ipAddress, string macAddress, DeviceStatus status)
         {
             Name = name;
             IpAddress = ipAddress;
             MacAddress = macAddress;
+            Status = status;
         }
 
-        private void OnPropertyChanged(string propertyName)
+        public NetworkDetail(string name, string ipAddress, string macAddress) : this(name, ipAddress, macAddress, DeviceStatus.Offline)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void NotifyStateChanged() => OnChange?.Invoke();
+        public NetworkDetail()
+        {
+            Name = string.Empty;
+            IpAddress = string.Empty;
+            MacAddress = string.Empty;
+            Status = DeviceStatus.Offline;
+        }
     }
 }

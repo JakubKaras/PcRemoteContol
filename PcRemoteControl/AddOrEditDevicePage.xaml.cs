@@ -2,18 +2,14 @@ namespace PcRemoteControl;
 
 public partial class AddOrEditDevicePage : ContentPage
 {
-	private AddOrEditDeviceViewModel _viewModel;
-
     public AddOrEditDevicePage(AddOrEditDeviceViewModel viewModel)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 
-		_viewModel = viewModel;
-		BindingContext = viewModel;
-	}
-
-	private async void SaveBtn_Clicked(object sender, EventArgs e)
-	{
+    private async void SaveBtn_Clicked(object sender, EventArgs e)
+    {
         await Navigation.PopAsync();
     }
 }
