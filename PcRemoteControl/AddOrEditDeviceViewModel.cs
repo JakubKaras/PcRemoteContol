@@ -1,4 +1,4 @@
-﻿using NetworkCommunicator;
+﻿using NetworkCommunicator.Api.Models;
 
 namespace PcRemoteControl
 {

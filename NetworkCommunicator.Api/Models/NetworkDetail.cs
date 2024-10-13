@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using NetworkCommunicator.Api.Enums;
 using System.Xml.Serialization;
 
-namespace NetworkCommunicator
+namespace NetworkCommunicator.Api.Models
 {
     [Serializable]
     public partial class NetworkDetail : ObservableObject

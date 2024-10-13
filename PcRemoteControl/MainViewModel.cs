@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using NetworkCommunicator;
+using NetworkCommunicator.Api.Interfaces;
+using NetworkCommunicator.Api.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using System.Xml.Serialization;
 
 namespace PcRemoteControl
@@ -11,6 +12,9 @@ namespace PcRemoteControl
     {
         [XmlIgnore]
         public static readonly string SavePath = Path.Combine(AppContext.BaseDirectory, "MainViewModel.xml");
+
+        [XmlIgnore]
+        private readonly IPingHandler? _pingHandler;
 
         [XmlArray("NetworkDetails")]
         public ObservableCollection<NetworkDetail> NetworkDetails { get; set; }
@@ -22,15 +26,20 @@ namespace PcRemoteControl
         [ObservableProperty]
         bool isRefreshing;
 
+        [XmlIgnore]
+        public ICommand? RefreshCommand { get; set; }
+
         public MainViewModel()
         {
             NetworkDetails = new ObservableCollection<NetworkDetail>();
             SelectedItem = NetworkDetails.FirstOrDefault();
+
+            RefreshCommand = new Command(async () => await Refresh());
         }
 
-        public void AddDevice()
+        public MainViewModel(IPingHandler pingHandler) : this()
         {
-            NetworkDetails.Add(new NetworkDetail());
+            _pingHandler = pingHandler;
         }
 
         public void RemoveDevice(NetworkDetail? detail)
@@ -49,17 +58,16 @@ namespace PcRemoteControl
             xs.Serialize(tw, this);
         }
 
-        [RelayCommand]
         private async Task Refresh()
         {
-            if (NetworkDetails == null)
+            if (NetworkDetails == null || _pingHandler == null)
             {
                 IsRefreshing = false;
                 return;
             }
 
             IsRefreshing = true;
-            var tasks = NetworkDetails.Select(x => x.Ping());
+            var tasks = NetworkDetails.Select(_pingHandler.Ping);
             IsRefreshing = false;
 
             await Task.WhenAll(tasks);

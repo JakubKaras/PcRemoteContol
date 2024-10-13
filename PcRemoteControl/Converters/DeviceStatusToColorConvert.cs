@@ -1,4 +1,4 @@
-﻿using NetworkCommunicator;
+﻿using NetworkCommunicator.Api.Enums;
 using System.Globalization;
 
 namespace PcRemoteControl.Converters

@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using NetworkCommunicator.Api.Interfaces;
+using NetworkCommunicator.PingHandlers;
+using NetworkCommunicator.ShutdownHandlers;
+using NetworkCommunicator.WakeUpHandlers;
 
 namespace PcRemoteControl
 {
@@ -17,7 +21,10 @@ namespace PcRemoteControl
                 // Dependency Injections
                 .Services
                     .AddSingleton<MainViewModel>()
-                    .AddSingleton<MainPage>();
+                    .AddSingleton<MainPage>()
+                    .AddSingleton<IWakeUpHandler, DefaultWakeUpHandler>()
+                    .AddSingleton<IShutdownHandler, DefaultShutdownHandler>()
+                    .AddSingleton<IPingHandler, DefaultPingHandler>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

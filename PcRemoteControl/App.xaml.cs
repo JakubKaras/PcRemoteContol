@@ -1,11 +1,12 @@
 ﻿using NetworkCommunicator;
+using NetworkCommunicator.Api.Interfaces;
 using System.Xml.Serialization;
 
 namespace PcRemoteControl
 {
     public partial class App : Application
     {
-        public App(MainViewModel model)
+        public App(MainViewModel model, IPingHandler pingHandler, IWakeUpHandler wakeUpHandler, IShutdownHandler shutdownHandler)
         {
             InitializeComponent();
 
@@ -21,6 +22,8 @@ namespace PcRemoteControl
 
                 if (loadedModel == null)
                     throw new FileLoadException("The XML was not loaded correctly.");
+
+                model.NetworkDetails = loadedModel.NetworkDetails;
             }
             catch
             {
@@ -28,7 +31,7 @@ namespace PcRemoteControl
             }
             finally
             {
-                MainPage = new NavigationPage(new MainPage(loadedModel ?? model));
+                MainPage = new NavigationPage(new MainPage(model, pingHandler, wakeUpHandler, shutdownHandler));
             }
         }
     }

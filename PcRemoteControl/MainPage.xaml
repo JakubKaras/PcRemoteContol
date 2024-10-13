@@ -5,7 +5,7 @@
              xmlns:converters="clr-namespace:PcRemoteControl.Converters"
              xmlns:animations="clr-namespace:PcRemoteControl.Animations"
              xmlns:triggers="clr-namespace:PcRemoteControl.Triggers"
-             xmlns:communicator="clr-namespace:NetworkCommunicator;assembly=NetworkCommunicator"
+             xmlns:models="clr-namespace:NetworkCommunicator.Api.Models;assembly=NetworkCommunicator.Api"
              x:Class="PcRemoteControl.MainPage"
              x:DataType="local:MainViewModel">
     <ContentPage.Resources>
@@ -25,7 +25,7 @@
             SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="communicator:NetworkDetail">
+                    <DataTemplate x:DataType="models:NetworkDetail">
                         <SwipeView Margin="0,2,0,2">
                             <SwipeView.LeftItems>
                                 <SwipeItems>

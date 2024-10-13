@@ -1,4 +1,4 @@
-﻿namespace NetworkCommunicator
+﻿namespace NetworkCommunicator.Api.Enums
 {
     public enum DeviceStatus
     {

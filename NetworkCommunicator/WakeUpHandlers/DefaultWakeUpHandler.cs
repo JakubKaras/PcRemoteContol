@@ -1,18 +1,19 @@
-﻿using System.Net.NetworkInformation;
+﻿using NetworkCommunicator.Api.Interfaces;
+using NetworkCommunicator.Api.Models;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace NetworkCommunicator
+namespace NetworkCommunicator.WakeUpHandlers
 {
-    public static class NetworkDetailExtensions
+    public class DefaultWakeUpHandler : IWakeUpHandler
     {
-        const int ShutdownPort = 9110;
-        private static readonly byte[] _shutdowMessage = { 115, 104, 117, 116, 100, 111, 119, 110, 10 };
+        private readonly byte[] _mutlicastAddress = new byte[] { 224, 0, 0, 1 };
 
-        public static async Task Wake(this NetworkDetail networkDetail)
+        public async Task WakeUp(NetworkDetail device)
         {
-            byte[] magicPacket = BuildMagicPacket(networkDetail.MacAddress);
+            byte[] magicPacket = BuildMagicPacket(device.MacAddress);
 
             IEnumerable<NetworkInterface> interfaces = NetworkInterface.GetAllNetworkInterfaces()
                 .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback);
@@ -25,7 +26,7 @@ namespace NetworkCommunicator
                     .FirstOrDefault();
                 if (unicastIPAddressInformation != null)
                 {
-                    await SendMagicPacket(magicPacket, unicastIPAddressInformation.Address, new IPAddress(new byte[] { 224, 0, 0, 1 }));
+                    await SendMagicPacket(magicPacket, unicastIPAddressInformation.Address, new IPAddress(_mutlicastAddress));
                     return;
                 }
             }
@@ -48,42 +49,6 @@ namespace NetworkCommunicator
             {
                 await udpClient.SendAsync(magicPacket, magicPacket.Length, new IPEndPoint(multicastIpAddress, 7));
             }
-        }
-
-        public static int Shutdown(this NetworkDetail network)
-        {
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            try
-            {
-                socket.Connect(IPAddress.Parse(network.IpAddress), ShutdownPort);
-                int result = socket.Send(_shutdowMessage);
-                return result;
-            }
-            catch
-            {
-                return -1;
-            }
-        }
-
-        public static async Task<bool> Ping(this NetworkDetail networkDetail)
-        {
-            Ping pinger = new();
-            var isOnline = false;
-
-            try
-            {
-                networkDetail.Status = DeviceStatus.Loading;
-                var reply = await pinger.SendPingAsync(networkDetail.IpAddress);
-                isOnline = reply.Status == IPStatus.Success;
-            }
-            finally
-            {
-                networkDetail.Status = isOnline ? DeviceStatus.Online : DeviceStatus.Offline;
-                pinger?.Dispose();
-            }
-
-
-            return isOnline;
         }
     }
 }

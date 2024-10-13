@@ -1,11 +1,20 @@
-﻿using NetworkCommunicator;
+﻿using NetworkCommunicator.Api.Interfaces;
+using NetworkCommunicator.Api.Models;
 
 namespace PcRemoteControl
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(MainViewModel viewModel)
+        private readonly IPingHandler _pingHandler;
+        private readonly IWakeUpHandler _wakeUpHandler;
+        private readonly IShutdownHandler _shutdownHandler;
+
+        public MainPage(MainViewModel viewModel, IPingHandler pingHandler, IWakeUpHandler wakeUpHandler, IShutdownHandler shutdownHandler)
         {
+            _pingHandler = pingHandler;
+            _wakeUpHandler = wakeUpHandler;
+            _shutdownHandler = shutdownHandler;
+
             InitializeComponent();
             BindingContext = viewModel;
 
@@ -19,7 +28,7 @@ namespace PcRemoteControl
                 return;
 
             if (await DisplayAlert("Wake Up Device", $"Are you sure you wish to wake up {selectedItem.Name}", "Wake Up", "Cancel"))
-                await selectedItem.Wake();
+                await _wakeUpHandler.WakeUp(selectedItem);
         }
 
         private async void OnShutdownClicked(object sender, EventArgs e)
@@ -28,14 +37,14 @@ namespace PcRemoteControl
             if (selectedItem == null)
                 return;
 
-            if (!await selectedItem.Ping())
+            if (!await _pingHandler.Ping(selectedItem))
             {
                 await DisplayAlert("Device Is Offline", $"{selectedItem.Name} is already offline.", "Ok");
                 return;
             }
 
             if (await DisplayAlert("Shutdown Device", $"Are you sure you wish to shutdown {selectedItem.Name}", "Shutdown", "Cancel"))
-                selectedItem.Shutdown();
+                _shutdownHandler.Shutdown(selectedItem);
         }
 
         private async void OnEditSwipeItemInvoked(object sender, EventArgs e)
@@ -45,14 +54,18 @@ namespace PcRemoteControl
 
         private async void OnDeleteSwipeItemInvoked(object sender, EventArgs e)
         {
-            if (await DisplayAlert("Delete Device", $"Are you sure you wish to remove {((NetworkDetail)deviceList.SelectedItem).Name}", "Delete", "Cancel"))
-                ((MainViewModel)BindingContext).RemoveDevice(deviceList.SelectedItem as NetworkDetail);
+            NetworkDetail device = (NetworkDetail)deviceList.SelectedItem;
+
+            if (await DisplayAlert("Delete Device", $"Are you sure you wish to remove {device.Name}", "Delete", "Cancel"))
+                ((MainViewModel)BindingContext).RemoveDevice(device);
         }
 
         private async void AddDeviceBtn_Clicked(object sender, EventArgs e)
         {
-            ((MainViewModel)BindingContext).AddDevice();
-            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(((MainViewModel)BindingContext).NetworkDetails.Last(), false)));
+            MainViewModel vm = (MainViewModel)BindingContext;
+
+            vm.NetworkDetails.Add(new NetworkDetail());
+            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(vm.NetworkDetails.Last(), false)));
         }
 
         private void OnLoaded(object? sender, EventArgs e)
