@@ -1,5 +1,5 @@
-﻿using NetworkCommunicator.Api.Interfaces;
-using NetworkCommunicator.Api.Models;
+﻿using NetworkCommunicator.Api.Entities;
+using NetworkCommunicator.Api.Interfaces;
 using System.Net.Sockets;
 using System.Net;
 

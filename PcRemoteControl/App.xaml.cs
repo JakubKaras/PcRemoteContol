@@ -1,5 +1,4 @@
-﻿using NetworkCommunicator;
-using NetworkCommunicator.Api.Interfaces;
+﻿using NetworkCommunicator.Api.Interfaces;
 using System.Xml.Serialization;
 
 namespace PcRemoteControl

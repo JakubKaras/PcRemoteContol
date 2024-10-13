@@ -2,7 +2,7 @@
 using NetworkCommunicator.Api.Enums;
 using System.Xml.Serialization;
 
-namespace NetworkCommunicator.Api.Models
+namespace NetworkCommunicator.Api.Entities
 {
     [Serializable]
     public partial class NetworkDetail : ObservableObject

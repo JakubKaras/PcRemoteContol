@@ -1,6 +1,6 @@
-﻿using NetworkCommunicator.Api.Enums;
+﻿using NetworkCommunicator.Api.Entities;
+using NetworkCommunicator.Api.Enums;
 using NetworkCommunicator.Api.Interfaces;
-using NetworkCommunicator.Api.Models;
 using System.Net.NetworkInformation;
 
 namespace NetworkCommunicator.PingHandlers

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using NetworkCommunicator.Api.Entities;
 using NetworkCommunicator.Api.Interfaces;
-using NetworkCommunicator.Api.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Xml.Serialization;

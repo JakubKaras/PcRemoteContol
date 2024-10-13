@@ -1,4 +1,4 @@
-﻿using NetworkCommunicator.Api.Models;
+﻿using NetworkCommunicator.Api.Entities;
 
 namespace NetworkCommunicator.Api.Interfaces
 {

@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PcRemoteControl"
-             xmlns:converters="clr-namespace:PcRemoteControl.Converters"
              xmlns:animations="clr-namespace:PcRemoteControl.Animations"
+             xmlns:converters="clr-namespace:PcRemoteControl.Converters"
+             xmlns:entities="clr-namespace:NetworkCommunicator.Api.Entities;assembly=NetworkCommunicator.Api"
              xmlns:triggers="clr-namespace:PcRemoteControl.Triggers"
-             xmlns:models="clr-namespace:NetworkCommunicator.Api.Models;assembly=NetworkCommunicator.Api"
              x:Class="PcRemoteControl.MainPage"
              x:DataType="local:MainViewModel">
     <ContentPage.Resources>
@@ -25,7 +25,7 @@
             SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:NetworkDetail">
+                    <DataTemplate x:DataType="entities:NetworkDetail">
                         <SwipeView Margin="0,2,0,2">
                             <SwipeView.LeftItems>
                                 <SwipeItems>
