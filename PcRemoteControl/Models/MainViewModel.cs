@@ -4,7 +4,7 @@ using NetworkCommunicator.Api.Interfaces;
 using PcRemoteControl.Entities;
 using System.Windows.Input;
 
-namespace PcRemoteControl
+namespace PcRemoteControl.Models
 {
     public partial class MainViewModel : ObservableObject
     {
@@ -38,7 +38,9 @@ namespace PcRemoteControl
             }
 
             IsRefreshing = true;
-            var tasks = NetworkDetailsDatabase.NetworkDetails.Select(_pingHandler.Ping);
+            var tasks = NetworkDetailsDatabase.NetworkDetails
+                .Where(x  => !string.IsNullOrEmpty(x.IpAddress))
+                .Select(_pingHandler.Ping);
             IsRefreshing = false;
 
             await Task.WhenAll(tasks);

@@ -1,6 +1,6 @@
 ﻿using NetworkCommunicator.Api.Entities;
 
-namespace PcRemoteControl
+namespace PcRemoteControl.Models
 {
     public class AddOrEditDeviceViewModel
     {

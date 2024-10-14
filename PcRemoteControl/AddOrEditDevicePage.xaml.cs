@@ -1,3 +1,5 @@
+using PcRemoteControl.Models;
+
 namespace PcRemoteControl;
 
 public partial class AddOrEditDevicePage : ContentPage

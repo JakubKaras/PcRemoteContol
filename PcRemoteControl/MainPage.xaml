@@ -5,11 +5,13 @@
              xmlns:animations="clr-namespace:PcRemoteControl.Animations"
              xmlns:converters="clr-namespace:PcRemoteControl.Converters"
              xmlns:entities="clr-namespace:NetworkCommunicator.Api.Entities;assembly=NetworkCommunicator.Api"
+             xmlns:models="clr-namespace:PcRemoteControl.Models"
              xmlns:triggers="clr-namespace:PcRemoteControl.Triggers"
              x:Class="PcRemoteControl.MainPage"
-             x:DataType="local:MainViewModel">
+             x:DataType="models:MainViewModel">
     <ContentPage.Resources>
         <converters:DeviceStatusToColorConvert x:Key="deviceStatusToColor" />
+        <converters:StringToIsVisibleConvert x:Key="StringToIsVisible" />
     </ContentPage.Resources>
 
     <Grid>
@@ -32,7 +34,8 @@
                                     <SwipeItem Text="Wake Up"
                                             IconImageSource="wakeup.png"
                                             BackgroundColor="LightGreen"
-                                            Invoked="OnWakeUpClicked" />
+                                            Invoked="OnWakeUpClicked"
+                                            IsVisible="{Binding MacAddress, Converter={StaticResource StringToIsVisible}}" />
                                     <SwipeItem Text="Edit"
                                             IconImageSource="edit.png"
                                             BackgroundColor="LightBlue"
@@ -44,7 +47,8 @@
                                     <SwipeItem Text="Shutdown"
                                             IconImageSource="shutdown.png"
                                             BackgroundColor="LightGray"
-                                            Invoked="OnShutdownClicked" />
+                                            Invoked="OnShutdownClicked"
+                                            IsVisible="{Binding IpAddress, Converter={StaticResource StringToIsVisible}}" />
                                     <SwipeItem Text="Delete"
                                             IconImageSource="delete.png"
                                             BackgroundColor="LightPink"
@@ -113,5 +117,4 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start" />
     </Grid>
-
 </ContentPage>

@@ -1,5 +1,6 @@
 ﻿using NetworkCommunicator.Api.Entities;
 using NetworkCommunicator.Api.Interfaces;
+using PcRemoteControl.Models;
 
 namespace PcRemoteControl
 {

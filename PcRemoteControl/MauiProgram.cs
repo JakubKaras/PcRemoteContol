@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NetworkCommunicator;
 using PcRemoteControl.Entities;
+using PcRemoteControl.Models;
 
 namespace PcRemoteControl
 {

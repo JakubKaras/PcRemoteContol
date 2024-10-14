@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PcRemoteControl.AddOrEditDevicePage"
              xmlns:local="clr-namespace:PcRemoteControl"
-             x:DataType="local:AddOrEditDeviceViewModel" >
+             xmlns:models="clr-namespace:PcRemoteControl.Models"
+             x:Class="PcRemoteControl.AddOrEditDevicePage"
+             x:DataType="models:AddOrEditDeviceViewModel" >
     <VerticalStackLayout>
         <Label 
             Text="{Binding Title}"
