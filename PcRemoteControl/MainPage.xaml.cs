@@ -57,20 +57,20 @@ namespace PcRemoteControl
             NetworkDetail device = (NetworkDetail)deviceList.SelectedItem;
 
             if (await DisplayAlert("Delete Device", $"Are you sure you wish to remove {device.Name}", "Delete", "Cancel"))
-                ((MainViewModel)BindingContext).RemoveDevice(device);
+                ((MainViewModel)BindingContext).NetworkDetailsDatabase.RemoveDevice(device);
         }
 
         private async void AddDeviceBtn_Clicked(object sender, EventArgs e)
         {
             MainViewModel vm = (MainViewModel)BindingContext;
 
-            vm.NetworkDetails.Add(new NetworkDetail());
-            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(vm.NetworkDetails.Last(), false)));
+            vm.NetworkDetailsDatabase.NetworkDetails.Add(new NetworkDetail());
+            await Navigation.PushAsync(new AddOrEditDevicePage(new AddOrEditDeviceViewModel(vm.NetworkDetailsDatabase.NetworkDetails.Last(), false)));
         }
 
         private void OnLoaded(object? sender, EventArgs e)
         {
-            ((MainViewModel)BindingContext).SaveDevices();
+            ((MainViewModel)BindingContext).NetworkDetailsDatabase.SaveDevices();
         }
     }
 }

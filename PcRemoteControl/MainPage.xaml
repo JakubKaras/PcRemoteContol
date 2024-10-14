@@ -21,7 +21,7 @@
         <CollectionView
             x:Name="deviceList"
             Grid.Row="0"
-            ItemsSource="{Binding NetworkDetails}"
+            ItemsSource="{Binding NetworkDetailsDatabase.NetworkDetails}"
             SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <CollectionView.ItemTemplate>

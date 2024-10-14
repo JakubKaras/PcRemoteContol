@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NetworkCommunicator;
+using PcRemoteControl.Entities;
 
 namespace PcRemoteControl
 {
@@ -19,6 +20,7 @@ namespace PcRemoteControl
                 .Services
                     .AddSingleton<MainViewModel>()
                     .AddSingleton<MainPage>()
+                    .AddSingleton<NetworkDetailsDatabase>()
                     .InstallNetworkCommunicator();
 
 #if DEBUG
