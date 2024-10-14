@@ -5,7 +5,7 @@ using System.Net;
 
 namespace NetworkCommunicator.ShutdownHandlers
 {
-    public class DefaultShutdownHandler : IShutdownHandler
+    internal class DefaultShutdownHandler : IShutdownHandler
     {
         const int ShutdownPort = 9110;
         private static readonly byte[] _shutdowMessage = { 115, 104, 117, 116, 100, 111, 119, 110, 10 };

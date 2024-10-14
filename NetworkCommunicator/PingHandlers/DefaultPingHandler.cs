@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 
 namespace NetworkCommunicator.PingHandlers
 {
-    public class DefaultPingHandler : IPingHandler
+    internal class DefaultPingHandler : IPingHandler
     {
         public async Task<bool> Ping(NetworkDetail networkDetail)
         {

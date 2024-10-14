@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace NetworkCommunicator.WakeUpHandlers
 {
-    public class DefaultWakeUpHandler : IWakeUpHandler
+    internal class DefaultWakeUpHandler : IWakeUpHandler
     {
         private readonly byte[] _mutlicastAddress = new byte[] { 224, 0, 0, 1 };
 
