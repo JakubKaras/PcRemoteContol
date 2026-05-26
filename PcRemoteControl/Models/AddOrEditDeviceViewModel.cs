@@ -6,7 +6,7 @@ namespace PcRemoteControl.Models
     {
         private readonly bool _isEdit = false;
 
-        public NetworkDetail Device { get; set; }
+        public NetworkDetail Device { get; init; }
 
         public string Title { get => _isEdit ? "Editing device" : "Adding new device"; }
 

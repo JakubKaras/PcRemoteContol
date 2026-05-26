@@ -1,16 +1,15 @@
-﻿using NetworkCommunicator.Api.Interfaces;
-using PcRemoteControl.Models;
-
-namespace PcRemoteControl
+﻿namespace PcRemoteControl
 {
     public partial class App : Application
     {
-        public App(MainViewModel model, IPingHandler pingHandler, IWakeUpHandler wakeUpHandler, IShutdownHandler shutdownHandler)
+        public App()
         {
             InitializeComponent();
+        }
 
-            model.NetworkDetailsDatabase.LoadDevices();
-            MainPage = new NavigationPage(new MainPage(model, pingHandler, wakeUpHandler, shutdownHandler));
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            return new Window(new AppShell());
         }
     }
 }

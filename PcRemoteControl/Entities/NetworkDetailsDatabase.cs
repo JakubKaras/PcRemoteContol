@@ -10,9 +10,6 @@ namespace PcRemoteControl.Entities
         [XmlIgnore]
         private static string SavePath = Path.Combine(AppContext.BaseDirectory, "NetworkDetailsDatabase.xml");
 
-        [XmlIgnore]
-        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(NetworkDetailsDatabase));
-
         [XmlArray("NetworkDetails")]
         public ObservableCollection<NetworkDetail> NetworkDetails { get; set; } = new ObservableCollection<NetworkDetail>();
 
@@ -30,7 +27,10 @@ namespace PcRemoteControl.Entities
                 if (loadedData == null)
                     throw new FileLoadException("The XML was not loaded correctly.");
 
-                NetworkDetails = loadedData.NetworkDetails;
+                foreach (var item in loadedData.NetworkDetails)
+                {
+                    NetworkDetails.Add(item);
+                }
             }
             catch
             {

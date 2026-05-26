@@ -8,9 +8,10 @@
              xmlns:models="clr-namespace:PcRemoteControl.Models"
              xmlns:triggers="clr-namespace:PcRemoteControl.Triggers"
              x:Class="PcRemoteControl.MainPage"
-             x:DataType="models:MainViewModel">
+             x:DataType="models:MainViewModel"
+             Loaded="OnLoaded">
     <ContentPage.Resources>
-        <converters:DeviceStatusToColorConvert x:Key="deviceStatusToColor" />
+        <converters:DeviceStatusToColorConvert x:Key="DeviceStatusToColor" />
         <converters:StringToIsVisibleConvert x:Key="StringToIsVisible" />
     </ContentPage.Resources>
 
@@ -20,12 +21,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-        <CollectionView
-            x:Name="deviceList"
-            Grid.Row="0"
-            ItemsSource="{Binding NetworkDetailsDatabase.NetworkDetails}"
-            SelectionMode="Single"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <CollectionView
+                Grid.Row="0"
+                ItemsSource="{Binding NetworkDetailsDatabase.NetworkDetails}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="entities:NetworkDetail">
                         <SwipeView Margin="0,2,0,2">

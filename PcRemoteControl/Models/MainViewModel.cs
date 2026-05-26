@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using NetworkCommunicator.Api.Entities;
 using NetworkCommunicator.Api.Interfaces;
 using PcRemoteControl.Entities;
 using System.Windows.Input;
@@ -12,20 +11,15 @@ namespace PcRemoteControl.Models
 
         public NetworkDetailsDatabase NetworkDetailsDatabase { get; set; }
 
-        public NetworkDetail? SelectedItem { get; set; }
-
         [ObservableProperty]
-        bool isRefreshing;
+        public partial bool IsRefreshing { get; set; }
 
         public ICommand? RefreshCommand { get; set; }
 
         public MainViewModel(NetworkDetailsDatabase networkDetailsDatabase, IPingHandler pingHandler)
         {
             _pingHandler = pingHandler;
-
             NetworkDetailsDatabase = networkDetailsDatabase;
-            SelectedItem = NetworkDetailsDatabase.NetworkDetails.FirstOrDefault();
-
             RefreshCommand = new Command(async () => await Refresh());
         }
 
